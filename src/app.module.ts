@@ -5,18 +5,23 @@ import { HomeController } from './controllers/home.controller';
 import { Router } from './router';
 import { Redis } from 'ioredis';
 import { fetch } from 'undici';
+import helmet from '@fastify/helmet';
 
 export const FASTIFY_INSTANCE = Symbol.for('fastify.instance');
 export const FETCH = Symbol.for('undici.fetch');
-
-const fastify: FastifyInstance = Fastify({ logger: true });
 
 @Module({
   imports: [],
   providers: [
     {
       provide: FASTIFY_INSTANCE,
-      useValue: fastify,
+      useFactory: () => {
+        const fastify: FastifyInstance = Fastify({ logger: true });
+        fastify.register(helmet, {
+          contentSecurityPolicy: false,
+        });
+        return fastify;
+      },
     },
     {
       provide: FETCH,
