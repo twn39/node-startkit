@@ -1,20 +1,11 @@
 import { FastifyInstance } from 'fastify';
+import { Router } from './router';
 
 export class AppServer {
-  constructor(private server: FastifyInstance) {}
-
-  routers() {
-    this.server.get('/', (request, reply) => {
-      reply.send({
-        code: 0,
-        data: 'server run.',
-        msg: 'ok',
-      });
-    });
-  }
+  constructor(public server: FastifyInstance, private router: Router) {}
 
   async run() {
-    this.routers();
+    this.router.setRouters(this.server);
     return await this.server.listen({ port: 3000 });
   }
 }
