@@ -1,10 +1,10 @@
-import { Injectable } from '@nestjs/common';
+import { Controller, Inject } from '@nestjs/common';
 import { FastifyReply, FastifyRequest } from 'fastify';
-import AppConfig from '../config';
+import { CONFIG, IConfig } from '../config';
 
-@Injectable()
+@Controller()
 export class HomeController {
-  constructor(private readonly config: AppConfig) {}
+  constructor(@Inject(CONFIG) private readonly config: IConfig) {}
 
   index = (request: FastifyRequest, reply: FastifyReply) => {
     reply.send({

@@ -1,11 +1,14 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import { AppServer } from './app.server';
+import * as process from 'process';
+import { router } from './router';
+
+const port = process.env.PORT || 3001;
 
 async function bootstrap() {
   const app = await NestFactory.createApplicationContext(AppModule);
-  const server = await app.get(AppServer);
-  await server.run();
+  const server = router(app);
+  return await server.listen({ port: Number(port) });
 }
 
 bootstrap();
