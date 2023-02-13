@@ -1,13 +1,16 @@
 import { Injectable } from '@nestjs/common';
 import { FastifyReply, FastifyRequest } from 'fastify';
+import AppConfig from '../config';
 
 @Injectable()
 export class HomeController {
-  index(request: FastifyRequest, reply: FastifyReply) {
+  constructor(private readonly config: AppConfig) {}
+
+  index = (request: FastifyRequest, reply: FastifyReply) => {
     reply.send({
       code: 0,
-      data: 'server run.',
+      data: this.config,
       msg: 'ok',
     });
-  }
+  };
 }

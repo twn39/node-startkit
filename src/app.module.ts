@@ -6,6 +6,7 @@ import { Router } from './router';
 import { Redis } from 'ioredis';
 import { fetch } from 'undici';
 import helmet from '@fastify/helmet';
+import AppConfig from './config';
 
 export const FASTIFY_INSTANCE = Symbol.for('fastify.instance');
 export const FETCH = Symbol.for('undici.fetch');
@@ -13,6 +14,7 @@ export const FETCH = Symbol.for('undici.fetch');
 @Module({
   imports: [],
   providers: [
+    AppConfig,
     {
       provide: FASTIFY_INSTANCE,
       useFactory: () => {
@@ -29,9 +31,10 @@ export const FETCH = Symbol.for('undici.fetch');
     },
     {
       provide: Redis,
-      useFactory: () => {
-        return new Redis();
+      useFactory: (config: AppConfig) => {
+        return new Redis(config.redis);
       },
+      inject: [AppConfig],
     },
     HomeController,
     Router,
