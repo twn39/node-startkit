@@ -5,9 +5,11 @@ import { Redis } from 'ioredis';
 import { fetch } from 'undici';
 import helmet from '@fastify/helmet';
 import { config, CONFIG, IConfig } from './config';
+import knex from 'knex';
 
 export const FASTIFY_INSTANCE = Symbol.for('fastify.instance');
 export const FETCH = Symbol.for('undici.fetch');
+export const DB = Symbol.for('DB');
 
 @Module({
   imports: [],
@@ -42,6 +44,13 @@ export const FETCH = Symbol.for('undici.fetch');
           optional: false,
         },
       ],
+    },
+    {
+      provide: DB,
+      useFactory: (config: IConfig) => {
+        return knex(config.db);
+      },
+      inject: [{ token: CONFIG, optional: false }],
     },
   ],
 })
