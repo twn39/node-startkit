@@ -1,6 +1,7 @@
 import { Controller, Inject } from '@nestjs/common';
 import { FastifyReply, FastifyRequest } from 'fastify';
-import { CONFIG, IConfig } from '../config';
+import { IConfig } from '../config';
+import { CONFIG } from '../types';
 
 @Controller()
 export class HomeController {

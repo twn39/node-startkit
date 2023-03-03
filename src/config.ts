@@ -2,8 +2,6 @@ import * as process from 'process';
 import { Knex } from 'knex';
 import { RedisOptions } from 'ioredis';
 
-export const CONFIG = Symbol.for('app.config');
-
 export interface IConfig {
   env: 'development' | 'production' | 'test';
   redis: RedisOptions;

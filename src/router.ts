@@ -1,6 +1,6 @@
 import { INestApplicationContext } from '@nestjs/common';
-import { FASTIFY_INSTANCE } from './app.module';
 import { HomeController } from './controllers/home.controller';
+import { FASTIFY_INSTANCE } from './types';
 
 export function router(ctx: INestApplicationContext) {
   const server = ctx.get(FASTIFY_INSTANCE);

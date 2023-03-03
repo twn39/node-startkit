@@ -4,12 +4,9 @@ import { HomeController } from './controllers/home.controller';
 import { Redis } from 'ioredis';
 import { fetch } from 'undici';
 import helmet from '@fastify/helmet';
-import { config, CONFIG, IConfig } from './config';
+import { config, IConfig } from './config';
 import knex from 'knex';
-
-export const FASTIFY_INSTANCE = Symbol.for('fastify.instance');
-export const FETCH = Symbol.for('undici.fetch');
-export const DB = Symbol.for('DB');
+import { CONFIG, DB, FASTIFY_INSTANCE, FETCH } from './types';
 
 @Module({
   imports: [],
