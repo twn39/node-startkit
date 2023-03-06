@@ -2,7 +2,7 @@ import * as process from 'process';
 import { Knex } from 'knex';
 import { RedisOptions } from 'ioredis';
 import * as dotenv from 'dotenv';
-import {FastifyBaseLogger, FastifyHttpOptions} from "fastify";
+import { FastifyBaseLogger, FastifyHttpOptions } from 'fastify';
 import { Server } from 'http';
 
 /**
@@ -24,7 +24,7 @@ export interface IConfig {
   env: 'dev' | 'prod' | 'test';
   redis: RedisOptions;
   db: Knex.Config;
-  server: FastifyHttpOptions<Server, FastifyBaseLogger>
+  server: FastifyHttpOptions<Server, FastifyBaseLogger>;
 }
 
 export const config = {
