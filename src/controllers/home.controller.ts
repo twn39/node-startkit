@@ -10,7 +10,11 @@ export class HomeController {
   index = (request: FastifyRequest, reply: FastifyReply) => {
     reply.send({
       code: 0,
-      data: this.config,
+      data: {
+        title: 'server',
+        env: this.config.env,
+        version: '0.1.0',
+      },
       msg: 'ok',
     });
   };

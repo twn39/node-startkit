@@ -1,0 +1,13 @@
+{
+    "name": "user/project",
+    "require-dev": {
+        "deployer/deployer": "^7.0"
+    },
+    "authors": [
+        {
+            "name": "username",
+            "email": "user@domain.com"
+        }
+    ],
+    "require": {}
+}

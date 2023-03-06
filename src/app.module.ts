@@ -1,12 +1,11 @@
 import { Module } from '@nestjs/common';
-import Fastify, { FastifyInstance } from 'fastify';
 import { HomeController } from './controllers/home.controller';
 import { Redis } from 'ioredis';
 import { fetch } from 'undici';
-import helmet from '@fastify/helmet';
 import { config, IConfig } from './config';
 import knex from 'knex';
 import { CONFIG, DB, FASTIFY_INSTANCE, FETCH } from './types';
+import {fastifyFactory} from "./factories/fastifyFactory";
 
 @Module({
   imports: [],
@@ -18,13 +17,8 @@ import { CONFIG, DB, FASTIFY_INSTANCE, FETCH } from './types';
     },
     {
       provide: FASTIFY_INSTANCE,
-      useFactory: () => {
-        const fastify: FastifyInstance = Fastify({ logger: true });
-        fastify.register(helmet, {
-          contentSecurityPolicy: false,
-        });
-        return fastify;
-      },
+      useFactory: fastifyFactory,
+      inject: [{token: CONFIG, optional: false}]
     },
     {
       provide: FETCH,
@@ -35,12 +29,7 @@ import { CONFIG, DB, FASTIFY_INSTANCE, FETCH } from './types';
       useFactory: (config: IConfig) => {
         return new Redis(config.redis);
       },
-      inject: [
-        {
-          token: CONFIG,
-          optional: false,
-        },
-      ],
+      inject: [{token: CONFIG, optional: false}],
     },
     {
       provide: DB,
