@@ -2,8 +2,7 @@ import * as process from 'process';
 import { Knex } from 'knex';
 import { RedisOptions } from 'ioredis';
 import * as dotenv from 'dotenv';
-import { FastifyBaseLogger, FastifyHttpOptions } from 'fastify';
-import { Server } from 'http';
+import { FastifyModuleOptions } from './modules/fastify/fastify.module';
 
 /**
  * 环境变量将 APP_ENV 和 NODE_ENV 区分开，因为某些第三方库有用到 NODE_ENV，
@@ -21,13 +20,14 @@ dotenv.config({
 });
 
 export interface IConfig {
-  env: 'dev' | 'prod' | 'test';
+  env: string;
+  nodeEnv: string;
   redis: RedisOptions;
   db: Knex.Config;
-  server: FastifyHttpOptions<Server, FastifyBaseLogger>;
+  server: FastifyModuleOptions;
 }
 
-export const config = {
+export const config: IConfig = {
   env: appEnv,
   nodeEnv: nodeEnv,
   server: {
@@ -35,7 +35,7 @@ export const config = {
   },
   redis: {
     host: process.env.REDIS_HOST || '127.0.0.1',
-    port: process.env.REDIS_PORT || 6379,
+    port: Number(process.env.REDIS_PORT || 6379),
     username: null,
     password: null,
     db: 0,
